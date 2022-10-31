@@ -1,0 +1,20 @@
+{
+  "projectName": "swiftmcweb demo",
+  "serverUrl": "http://localhost:8080",
+  "isStrict": false,
+  "outPath": "src/main/resources/static/doc",
+  "allInOne": true,
+  "coverOld": true,
+  "createDebugPage": true,
+  "style": "xt256",
+  "requestHeaders": [
+    {
+      "name": "Authorization",
+      "type": "string",
+      "desc": "Authorization JWT token",
+      "value": "Bearer ",
+      "required": false,
+      "since": "1.0.0"
+    }
+  ]
+}

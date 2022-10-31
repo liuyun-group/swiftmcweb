@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.flyan.swiftmcweb</groupId>
+    <artifactId>swiftmcweb-demo</artifactId>
+    <name>swiftmcweb-demo</name>
+    <version>1.0.0</version>
+    <description>swiftmcweb demo</description>
+    <packaging>jar</packaging>
+    <url>none</url>
+    <inceptionYear>${inception-year.version}</inceptionYear>
+
+    <!-- opensource licenses -->
+    <licenses>
+        <license>
+            <name>Apache 2</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+            <comments>A business-friendly OSS license</comments>
+        </license>
+    </licenses>
+    <scm>
+    </scm>
+
+    <organization>
+        <name>Hainan Floating Cloud</name>
+        <url>https://liuyunkeji.com.cn/</url>
+    </organization>
+    <developers>
+        <developer>
+            <id>flyan</id>
+            <name>flyan</name>
+            <email>flyan_by_chenu@sina.com</email>
+            <roles>
+                <role>Developer</role>
+                <role>Tech Leader</role>
+            </roles>
+            <timezone>+8</timezone>
+            <url>https://github.com/flyanh</url>
+        </developer>
+    </developers>
+
+    <properties>
+        <java.version>17</java.version>
+        <inception-year.version>2022</inception-year.version>
+
+        <!-- util -->
+        <mapstruct.version>1.4.1.Final</mapstruct.version>
+        <lombok.version>1.18.22</lombok.version>
+
+        <!-- build plugins -->
+        <maven.compiler.version>3.8.1</maven.compiler.version>
+        <maven.source.version>3.2.0</maven.source.version>
+        <maven.resources.version>3.2.0</maven.resources.version>
+        <spring.boot.maven.plugin.version>2.6.3</spring.boot.maven.plugin.version>
+        <maven.jar.version>3.2.0</maven.jar.version>
+        <maven.surefire.version>3.0.0-M4</maven.surefire.version>
+
+        <!-- project encoding -->
+        <project.encoding>UTF-8</project.encoding>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <!-- maven compiler java -->
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <maven.pluging.version>3.8.6</maven.pluging.version>
+        <maven.pluging.annotations.version>3.6.4</maven.pluging.annotations.version>
+    </properties>
+
+    <dependencies>
+        <!-- swiftmcweb setup!!! -->
+        <dependency>
+            <groupId>com.flyan.swiftmcweb</groupId>
+            <artifactId>swiftmcweb</artifactId>
+            <version>1.0.0</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <finalName>${project.artifactId}</finalName>
+        <plugins>
+            <!-- Compile java -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.compiler.version}</version>
+                <configuration>
+                    <!-- 解决 Lombok + MapStruct 组合 -->
+                    <annotationProcessorPaths>
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>${lombok.version}</version>
+                        </path>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>${mapstruct.version}</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+
+            <!-- Resource plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>${maven.resources.version}</version>
+                <configuration>
+                    <delimiters>
+                        <delimiter>@</delimiter>
+                    </delimiters>
+                    <useDefaultDelimiters>false</useDefaultDelimiters>
+                </configuration>
+            </plugin>
+
+            <!-- Create springboot application -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring.boot.maven.plugin.version}</version>
+                <configuration>
+                    <fork>true</fork>
+                    <addResources>true</addResources>
+                    <excludes>
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                    </excludes>
+                    <includeSystemScope>true</includeSystemScope>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal> <!-- 将引入的 jar 打入其中 -->
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Create api document -->
+            <plugin>
+                <!-- 不要再使用 2.6.1，一个 bug 导致 serverUrl 无法正常显示，也无法正常调试 -->
+                <groupId>com.github.shalousun</groupId>
+                <artifactId>smart-doc-maven-plugin</artifactId>
+                <version>2.6.2</version>
+                <configuration>
+                    <!--指定生成文档的使用的配置文件,配置文件放在自己的项目中-->
+                    <configFile>./src/main/resources/smart-doc.json</configFile>
+                    <!--指定项目名称-->
+                    <projectName>${project.artifactId}</projectName>
+                    <!--smart-doc实现自动分析依赖树加载第三方依赖的源码，如果一些框架依赖库加载不到导致报错，这时请使用excludes排除掉-->
+                    <excludes>
+                        <!--格式为：groupId:artifactId;参考如下-->
+                        <!--也可以支持正则式如：com.alibaba:.* -->
+                    </excludes>
+                    <!--includes配置用于配置加载外部依赖源码,配置后插件会按照配置项加载外部源代码而不是自动加载所有，因此使用时需要注意-->
+                    <!--smart-doc能自动分析依赖树加载所有依赖源码，原则上会影响文档构建效率，因此你可以使用includes来让插件加载你配置的组件-->
+                    <includes>
+                        <!--格式为：groupId:artifactId;参考如下-->
+                        <!--也可以支持正则式如：com.alibaba:.* -->
+                        <include>com.flyan.swiftmcweb:swiftmcweb</include>
+                        <include>com.flyan.swiftmcweb:${project.artifactId}</include>
+                        <!-- 如果配置了includes的情况下， 使用了mybatis-plus的分页需要include所使用的源码包 -->
+                        <!--<include>com.baomidou:mybatis-plus-extension</include>-->
+                        <!-- 如果配置了includes的情况下， 使用了jpa的分页需要include所使用的源码包 -->
+                        <!--<include>org.springframework.data:spring-data-commons</include>-->
+                    </includes>
+                </configuration>
+                <executions>
+                    <execution>
+                        <!--如果不需要在执行编译时启动smart-doc，则将phase注释掉-->
+                        <phase>compile</phase>
+                        <goals>
+                            <!--smart-doc提供了html、openapi、markdown等goal，可按需配置-->
+                            <goal>html</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

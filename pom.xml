@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.flyan.swiftmcweb</groupId>
+    <artifactId>swiftmcweb-parant</artifactId>
+    <version>1.0.0</version>
+    <name>${project.artifactId}</name>
+    <description>swiftmcweb is a message communication web implemented in Java</description>
+    <packaging>pom</packaging>
+    <url>none</url>
+    <inceptionYear>${inception-year.version}</inceptionYear>
+
+    <!-- opensource licenses -->
+    <licenses>
+        <license>
+            <name>Apache 2</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+            <comments>A business-friendly OSS license</comments>
+        </license>
+    </licenses>
+    <scm>
+
+    </scm>
+
+    <organization>
+        <name>Hainan Floating Cloud</name>
+        <url>https://liuyunkeji.com.cn/</url>
+    </organization>
+    <developers>
+        <developer>
+            <id>flyan</id>
+            <name>flyan</name>
+            <email>flyan_by_chenu@sina.com</email>
+            <roles>
+                <role>Developer</role>
+                <role>Tech Leader</role>
+            </roles>
+            <timezone>+8</timezone>
+            <url>https://github.com/flyanh</url>
+        </developer>
+    </developers>
+
+    <modules>
+        <module>core</module>
+        <module>extension</module>
+    </modules>
+
+    <repositories>
+        <!-- 使用 aliyun 的 Maven 源，提升下载速度 -->
+        <repository>
+            <id>aliyunmaven</id>
+            <name>aliyun</name>
+            <url>https://maven.aliyun.com/repository/public</url>
+        </repository>
+    </repositories>
+
+    <properties>
+        <java.version>17</java.version>
+        <inception-year.version>2022</inception-year.version>
+
+        <!-- core -->
+        <spring-boot.version>2.6.3</spring-boot.version>
+        <knife4j.version>3.0.3</knife4j.version>
+        <swagger-annotations.version>1.6.6</swagger-annotations.version>
+
+        <!-- util -->
+        <hutool.version>5.8.5</hutool.version>
+        <guava.version>31.1-jre</guava.version>
+        <fastjson2.version>2.0.15</fastjson2.version>
+        <mapstruct.version>1.4.1.Final</mapstruct.version>
+        <junit.jupiter.version>5.9.1</junit.jupiter.version>
+        <lombok.version>1.18.22</lombok.version>
+
+        <!-- build plugins -->
+        <maven.compiler.version>3.8.1</maven.compiler.version>
+        <maven.source.version>3.2.0</maven.source.version>
+        <maven.resources.version>3.2.0</maven.resources.version>
+        <spring.boot.maven.plugin.version>2.6.3</spring.boot.maven.plugin.version>
+        <maven.jar.version>3.2.0</maven.jar.version>
+        <maven.surefire.version>3.0.0-M4</maven.surefire.version>
+
+        <!-- project encoding -->
+        <project.encoding>UTF-8</project.encoding>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <!-- maven compiler java -->
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <maven.pluging.version>3.8.6</maven.pluging.version>
+        <maven.pluging.annotations.version>3.6.4</maven.pluging.annotations.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- util -->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba.fastjson2</groupId>
+                <artifactId>fastjson2</artifactId>
+                <version>${fastjson2.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct</artifactId>
+                <version>${mapstruct.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct-jdk8</artifactId>
+                <version>${mapstruct.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct-processor</artifactId>
+                <version>${mapstruct.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <dependencies>
+
+    </dependencies>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <!-- Create sources.jar -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>${maven.source.version}</version>
+                    <executions>
+                        <execution>
+                            <id>attach-sources</id>
+                            <goals>
+                                <goal>jar</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
+        <plugins>
+
+        </plugins>
+    </build>
+
+</project>

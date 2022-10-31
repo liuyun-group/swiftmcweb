@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>swiftmcweb-parant</artifactId>
+        <groupId>com.flyan.swiftmcweb</groupId>
+        <version>1.0.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>swiftmcweb-extension</artifactId>
+    <name>swiftmcweb-extension</name>
+    <description>swiftmcweb is a message communication web implemented in Java</description>
+    <packaging>jar</packaging>
+    <url>none</url>
+    <inceptionYear>${inception-year.version}</inceptionYear>
+
+    <!-- opensource licenses -->
+    <licenses>
+        <license>
+            <name>Apache 2</name>
+            <url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+            <comments>A business-friendly OSS license</comments>
+        </license>
+    </licenses>
+    <scm>
+
+    </scm>
+
+    <organization>
+        <name>Hainan Floating Cloud</name>
+        <url>https://liuyunkeji.com.cn/</url>
+    </organization>
+    <developers>
+        <developer>
+            <id>flyan</id>
+            <name>flyan</name>
+            <email>flyan_by_chenu@sina.com</email>
+            <roles>
+                <role>Developer</role>
+                <role>Tech Leader</role>
+            </roles>
+            <timezone>+8</timezone>
+            <url>https://github.com/flyanh</url>
+        </developer>
+    </developers>
+
+    <dependencies>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- Compile java -->
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+            </plugin>
+
+            <!-- Create sources.jar -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

@@ -1,0 +1,15 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: demo-message-ipc-web
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+
+--- #################### 系统相关配置 ####################
+demo-mipc:
+
