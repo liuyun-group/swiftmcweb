@@ -37,4 +37,11 @@ public class UserInfoDTO implements Serializable {
      */
     private String nickname;
 
+    /**
+     * 头像
+     *
+     * @mock    static/file/blackcat.png
+     */
+    private String headPic;
+
 }

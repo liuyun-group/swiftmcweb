@@ -1,7 +1,7 @@
 package com.flyan.swiftmcweb.core.framework.security.config;
 
-import com.flyan.swiftmcweb.core.framework.security.core.filter.JwtAuthenticationTokenFilter;
 import com.flyan.swiftmcweb.core.framework.security.core.bean.JwtEntryPoint;
+import com.flyan.swiftmcweb.core.framework.security.core.filter.JwtAuthenticationTokenFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -10,6 +10,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsUtils;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author flyan
@@ -20,7 +24,7 @@ import org.springframework.web.cors.CorsUtils;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    public static String[] OPEN_PATHS = {
+    public static List<String> OPEN_PATHS = Arrays.stream(new String[] {
             /* message ipc */
             "/sendrec",
 
@@ -28,6 +32,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
             /* smart-doc */
             "/doc/*",
+
+            /* static files */
+            "/static/**",
 
             /* swagger */
             "/doc.html",
@@ -40,11 +47,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/v2/api-docs-ext",
             "/v3/api-docs/**",
             "/v3/api-docs-ext"
-    };
+    }).collect(Collectors.toList());
 
-    public static String[] BAN_PATHS = {
-        "/mipc/**"
-    };
+    public static List<String> BAN_PATHS = Arrays.stream(new String[] {
+            "/mipc/**"
+    }).collect(Collectors.toList());
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -54,8 +61,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
-                .antMatchers(OPEN_PATHS).permitAll()
-                .antMatchers(BAN_PATHS).denyAll()
+                .antMatchers(OPEN_PATHS.toArray(new String[0])).permitAll()
+                .antMatchers(BAN_PATHS.toArray(new String[0])).denyAll()
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(authenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class)

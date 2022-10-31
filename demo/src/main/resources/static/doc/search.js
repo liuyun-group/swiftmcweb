@@ -93,13 +93,26 @@ api[0].list[2].list.push({
     desc: '登出注销',
 });
 api[0].list.push({
-    alias: 'MessageController',
+    alias: 'FileUploadController',
     order: '4',
+    link: '系统_-_文件服务',
+    desc: '系统 - 文件服务',
+    list: []
+})
+api[0].list[3].list.push({
+    order: '1',
+    deprecated: 'false',
+    url: 'http://localhost:8080/file/upload',
+    desc: '文件上传接口',
+});
+api[0].list.push({
+    alias: 'MessageController',
+    order: '5',
     link: '系统_-_消息控制器',
     desc: '系统 - 消息控制器',
     list: []
 })
-api[0].list[3].list.push({
+api[0].list[4].list.push({
     order: '1',
     deprecated: 'false',
     url: 'http://localhost:8080/sendrec',

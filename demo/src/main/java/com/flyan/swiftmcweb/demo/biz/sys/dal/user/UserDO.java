@@ -16,12 +16,29 @@ import lombok.experimental.Accessors;
 @NoArgsConstructor
 public class UserDO {
 
+    /**
+     * id
+     */
     private Long id;
 
+    /**
+     * 用户名
+     */
     private String username;
 
+    /**
+     * 用户密码
+     */
     private String password;
 
+    /**
+     * 用户昵称
+     */
     private String nickname;
+
+    /**
+     * 头像
+     */
+    private String headPic;
 
 }

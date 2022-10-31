@@ -49,6 +49,8 @@ export interface UserInfoDTO {
       */
      nickname: string | null;
 
+    headPic: string | null;
+
 }
 
 /**

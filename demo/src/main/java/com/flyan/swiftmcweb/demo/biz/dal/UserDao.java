@@ -21,8 +21,8 @@ public class UserDao {
 
     private static long nextId = 2L;
     private final static Map<Long, UserDO> db0 = MapUtil.<Long, UserDO>builder()
-            .put(0L, new UserDO(0L, "admin", "1002", "管理员"))
-            .put(1L, new UserDO(1L, "flyan", "147258", "辰晓夜"))
+            .put(0L, new UserDO(0L, "admin", "1002", "管理员", "static/file/2022-10-31/blackcat.png"))
+            .put(1L, new UserDO(1L, "flyan", "147258", "辰晓夜", "static/file/2022-10-31/vangood.png"))
             .build();
 
     public boolean exists(Long id){

@@ -7,9 +7,9 @@ import com.flyan.swiftmcweb.core.context.MessageIpcContext;
 import com.flyan.swiftmcweb.core.exception.enums.GlobalErrorCodeConstants;
 import com.flyan.swiftmcweb.core.framework.security.core.bean.RereadHttpServletRequestWrapper;
 import com.flyan.swiftmcweb.core.framework.security.core.enums.JwtConsts;
-import com.flyan.swiftmcweb.core.web.manager.SwiftmcwebAuthManager;
 import com.flyan.swiftmcweb.core.pojo.Message;
 import com.flyan.swiftmcweb.core.pojo.ResponseMessage;
+import com.flyan.swiftmcweb.core.web.manager.SwiftmcwebAuthManager;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -42,13 +42,13 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        RereadHttpServletRequestWrapper rereadRequest = new RereadHttpServletRequestWrapper(request);
-        String authorization = rereadRequest.getHeader(JwtConsts.AUTH_HEADER);
-        String requestURI = rereadRequest.getRequestURI();
+        String requestURI = request.getRequestURI();
+        String authorization = request.getHeader(JwtConsts.AUTH_HEADER);
 
         /* 1. 如果是发送消息接口，那么先校验白名单 */
         if (requestURI.equals("/sendrec")) {
-            String bodyStr = ServletUtil.getBody(rereadRequest);
+            request = new RereadHttpServletRequestWrapper(request);
+            String bodyStr = ServletUtil.getBody(request);
             if(StrUtil.isNotBlank(bodyStr)) {
                 Message<?> sendMessage = JSON.parseObject(bodyStr, Message.class);
                 if (sendMessage == null) {
@@ -58,7 +58,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                 } else {
                     if (context.inAuthWhiteList(sendMessage.getService(), sendMessage.getMesstype())) {
                         /* 白名单，放行 */
-                        filterChain.doFilter(rereadRequest, response);
+                        filterChain.doFilter(request, response);
                         return;
                     } else {
                         /* 不在白名单，必须有 token 信息进行校验 */
@@ -81,11 +81,11 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             /* 记录授权用户信息 */
             Serializable userId = authManager.getUserId(authorization);
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userId, null, null);
-            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(rereadRequest));
+            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
 
-        filterChain.doFilter(rereadRequest, response);
+        filterChain.doFilter(request, response);
     }
 
     private void returnNoMessageResponse(HttpServletResponse response) throws IOException {

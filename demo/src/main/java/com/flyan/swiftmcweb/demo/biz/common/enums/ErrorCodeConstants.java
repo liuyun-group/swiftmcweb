@@ -23,4 +23,9 @@ public interface ErrorCodeConstants extends ServiceErrorCodeRange {
     // ========== USER 模块 1003000000 ==========
     ErrorCode DUPLICATE_USERNAME = new ErrorCode(1003000000, "重复的用户名");
 
+    // ========== FILE 模块 1004000000 ==========
+    ErrorCode ERR_FILE_NONE = new ErrorCode(1004000000, "上传文件为空");
+    ErrorCode ERR_DIR_CREAT_FAILED = new ErrorCode(1004000001, "创建文件目录失败：{}");
+    ErrorCode ERR_SAVE_UPLOAD_FILE_FAILED = new ErrorCode(1004000002, "存储上传文件失败，原因：{}");
+
 }
