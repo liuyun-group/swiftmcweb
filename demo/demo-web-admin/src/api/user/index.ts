@@ -1,22 +1,19 @@
 import { PageResult } from '../common/interface/common';
 import { message_api } from '../message';
 import { UserDetailVO, UserInfoDTO, UserPageQueryVO } from './interface/user';
-
-
-/* 用户服务 */
-const USER_SERVICE = 'USER';
+import {services} from "/@/api/common";
 
 export const user_api = {
 
     /**
      * 新增/更新用户
      * 
-     * @param data 
+     * @param user
      * @returns 
      */
     add_update: (user: UserDetailVO) => {
         return message_api.sendrec<UserDetailVO, number>({
-            service: USER_SERVICE,
+            service: services.user,
             messtype: 'add_update',
             data: user,
         });
@@ -30,7 +27,7 @@ export const user_api = {
      */
     del: (id: number) => {
         return message_api.sendrec<number, number>({
-            service: USER_SERVICE,
+            service: services.user,
             messtype: 'del',
             data: id,
         });
@@ -44,7 +41,7 @@ export const user_api = {
      */
     detail: (id: number) => {
         return message_api.sendrec<number, UserInfoDTO>({
-            service: USER_SERVICE,
+            service: services.user,
             messtype: 'detail',
             data: id,
         });
@@ -58,7 +55,7 @@ export const user_api = {
      */
     exists: (id: number) => {
         return message_api.sendrec<number, boolean>({
-            service: USER_SERVICE,
+            service: services.user,
             messtype: 'exists',
             data: id,
         });
@@ -72,7 +69,7 @@ export const user_api = {
      */
     page: (pageVO: UserPageQueryVO) => {
         return message_api.sendrec<UserPageQueryVO, PageResult<UserInfoDTO>>({
-            service: USER_SERVICE,
+            service: services.user,
             messtype: 'page',
             data: pageVO,
         });

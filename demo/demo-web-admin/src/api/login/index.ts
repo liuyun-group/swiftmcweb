@@ -1,8 +1,6 @@
 import { message_api } from '../message';
 import { CaptchaImageDTO, LoginReqVO, LoginResultDTO } from './interface/auth';
-
-/* 校验服务 */
-const AUTH_SERVICE = 'AUTH';
+import {services} from "/@/api/common";
 
 /**
  * 登录api接口集合
@@ -17,7 +15,7 @@ export const login_api = {
 	 */
 	sign_in: (data: LoginReqVO) => {
 		return message_api.sendrec<LoginReqVO, LoginResultDTO>({
-			service: AUTH_SERVICE,
+			service: services.auth,
 			messtype: "login",
 			data: data
 		});
@@ -31,7 +29,7 @@ export const login_api = {
 	 */
 	sign_out: () => {
 		return message_api.sendrec<null, boolean>({
-			service: AUTH_SERVICE,
+			service: services.auth,
 			messtype: "logout",
 			data: null
 		});
@@ -44,7 +42,7 @@ export const login_api = {
 	 */
 	captcha_image: () => {
 		return message_api.sendrec<null, CaptchaImageDTO>({
-			service: AUTH_SERVICE,
+			service: services.auth,
 			messtype: "captcha_image",
 			data: null
 		});

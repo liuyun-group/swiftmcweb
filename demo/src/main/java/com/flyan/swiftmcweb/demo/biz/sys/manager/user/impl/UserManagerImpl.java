@@ -10,6 +10,7 @@ import com.flyan.swiftmcweb.demo.biz.sys.api.user.vo.UserDetailVO;
 import com.flyan.swiftmcweb.demo.biz.sys.api.user.vo.UserPageQueryVO;
 import com.flyan.swiftmcweb.demo.biz.sys.dal.user.UserDO;
 import com.flyan.swiftmcweb.demo.biz.sys.manager.user.UserManager;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 
 import javax.annotation.Resource;
@@ -25,6 +26,7 @@ import static com.flyan.swiftmcweb.demo.biz.common.enums.ErrorCodeConstants.DUPL
  * @date 10/27/22
  */
 @MessageHandleManager(name = "userManager")
+@Slf4j
 public class UserManagerImpl implements UserManager {
 
     @Resource
@@ -60,6 +62,7 @@ public class UserManagerImpl implements UserManager {
         } else {
             userDao.update(userDO);
         }
+        log.info("users: {}", userDao.list());
         return userDO.getId();
     }
 

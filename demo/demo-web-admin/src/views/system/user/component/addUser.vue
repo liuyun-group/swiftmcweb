@@ -18,6 +18,18 @@
 							<el-input v-model="ruleForm.nickname" placeholder="请输入用户昵称" clearable></el-input>
 						</el-form-item>
 					</el-col>
+          <el-col :xs="24" :sm="24" :md="24" :lg="24" :xl="24">
+            <el-upload
+                class="avatar-uploader"
+                v-bind:action="UPLOAD_FILE_CONFIG.action"
+                v-bind:headers="UPLOAD_FILE_CONFIG.headers"
+                :show-file-list="false"
+                :on-success="handleAvatarSuccess"
+                :before-upload="beforeAvatarUpload">
+              <img v-if="headPicUrl" :src="headPicUrl" class="avatar" />
+              <i v-else class="el-icon-plus avatar-uploader-icon">+</i>
+            </el-upload>
+          </el-col>
 				</el-row>
 			</el-form>
 			<template #footer>
@@ -35,11 +47,22 @@ import { ElMessage } from 'element-plus';
 import { reactive, toRefs, onMounted, defineComponent } from 'vue';
 import { user_api } from '/@/api/user';
 import { UserDetailVO } from '/@/api/user/interface/user';
+import {Session} from "/@/utils/storage";
+import {file_upload_api} from "/@/api/file";
+import {dec_static_file_url, gen_static_file_url} from "/@/utils/static-file";
 
 // 定义接口来定义对象的类型
 interface UserState {
 	isShowDialog: boolean;
 	ruleForm: UserDetailVO;
+  headPicUrl: string;
+}
+
+const UPLOAD_FILE_CONFIG = {
+  headers: {
+    Authorization: 'Bearer ' + Session.get('token'),
+  },
+  action: file_upload_api.file_upload_uri
 }
 
 export default defineComponent({
@@ -52,7 +75,9 @@ export default defineComponent({
 				username: '',
 				nickname: '',
 				password: '',
+        headPic: '',
 			},
+      headPicUrl: '',
 		});
 		let query = () => {};
 		// 打开弹窗
@@ -70,17 +95,40 @@ export default defineComponent({
 		};
 		// 新增
 		const onSubmit = () => {
+      state.ruleForm.headPic = dec_static_file_url(state.headPicUrl);
 			user_api.add_update(state.ruleForm).then(() => {
 				ElMessage.success(`新增用户【${state.ruleForm.username}】成功！`);
 				closeDialog();
 				query();
 			});
 		};
+    /* 头像上传成功处理 */
+    const handleAvatarSuccess = (res: string, file: File) => {
+      state.headPicUrl = gen_static_file_url(res);
+    }
+    /* 头像上传前置处理 */
+    const beforeAvatarUpload = (file: File) => {
+      const isJPG = file.type === 'image/jpeg';
+      const isPng = file.type === 'image/png';
+      const isLt2M = file.size / 1024 / 1024 < 2;
+
+      if (!isJPG && !isPng) {
+        ElMessage.error('上传头像图片只能是 JPG/PNG 格式!');
+      }
+      if (!isLt2M) {
+        ElMessage.error('上传头像图片大小不能超过 2MB!');
+      }
+      return isJPG && isLt2M;
+    }
 		// 页面加载时
 		onMounted(() => {
 			
 		});
 		return {
+      UPLOAD_FILE_CONFIG,
+
+      beforeAvatarUpload,
+      handleAvatarSuccess,
 			openDialog,
 			closeDialog,
 			onCancel,
@@ -90,3 +138,29 @@ export default defineComponent({
 	},
 });
 </script>
+
+<style>
+.avatar-uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.avatar-uploader .el-upload:hover {
+  border-color: #409EFF;
+}
+.avatar-uploader-icon {
+  font-size: 37px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  line-height: 178px;
+  text-align: center;
+}
+.avatar {
+  width: 178px;
+  height: 178px;
+  display: block;
+}
+</style>

@@ -27,6 +27,11 @@ export interface UserDetailVO {
      */
     nickname: string;
 
+    /**
+     * 头像
+     */
+    headPic: string;
+
 }
 
 /**
@@ -49,7 +54,10 @@ export interface UserInfoDTO {
       */
      nickname: string | null;
 
-    headPic: string | null;
+    /**
+     * 头像
+     */
+     headPic: string | null;
 
 }
 
