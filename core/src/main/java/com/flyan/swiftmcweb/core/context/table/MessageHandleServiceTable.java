@@ -1,12 +1,14 @@
 package com.flyan.swiftmcweb.core.context.table;
 
-import com.flyan.swiftmcweb.core.util.MessageCoreUtil;
+import com.flyan.swiftmcweb.core.exception.SwiftmcwebException;
 import com.flyan.swiftmcweb.core.web.service.BaseMessageHandleService;
 import lombok.Data;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+import static com.flyan.swiftmcweb.core.util.MessageCoreUtil.getMessageHandlerServiceName;
 
 /**
  * 消息处理服务表
@@ -19,8 +21,11 @@ public class MessageHandleServiceTable {
     private final Map<String, MessageHandleServiceInfo> messageHandleServiceMap = new HashMap<>();
 
     public MessageHandleServiceTable registerService(BaseMessageHandleService service, MessageHandleFuncTable handleFuncTable) {
-        messageHandleServiceMap.put(MessageCoreUtil.getMessageHandlerServiceName(service),
-                new MessageHandleServiceInfo(service, handleFuncTable));
+        var serviceName = getMessageHandlerServiceName(service);
+        if (messageHandleServiceMap.containsKey(serviceName)) {
+            throw new SwiftmcwebException("Duplicate service: " + serviceName);
+        }
+        messageHandleServiceMap.put(serviceName, new MessageHandleServiceInfo(service, handleFuncTable));
         return this;
     }
 

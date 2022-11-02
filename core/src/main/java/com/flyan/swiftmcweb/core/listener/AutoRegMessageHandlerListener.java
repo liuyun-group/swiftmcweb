@@ -49,7 +49,7 @@ public class AutoRegMessageHandlerListener implements ApplicationListener<Contex
                         m -> m.isAnnotationPresent(MessageHandleFunc.class));
                 for (Method func : messageHandleFunctions) {
                     MessageHandleFunc annotation = func.getAnnotation(MessageHandleFunc.class);
-                    messageHandleFuncTable.registerHandleFunc(annotation.messtype(), func);
+                    messageHandleFuncTable.registerHandleFunc(serviceName, annotation.messtype(), func);
                     /* 校验白名单配置 */
                     if(!annotation.auth()) {
                         context.addAuthWhiteListEntry(serviceName, annotation.messtype());

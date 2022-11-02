@@ -1,6 +1,7 @@
 package com.flyan.swiftmcweb.core.context.table;
 
 import com.flyan.swiftmcweb.core.annotation.MessageHandleFunc;
+import com.flyan.swiftmcweb.core.exception.SwiftmcwebException;
 import lombok.Data;
 
 import java.lang.reflect.Method;
@@ -19,7 +20,10 @@ public class MessageHandleFuncTable {
 
     private final Map<String, Method> messageHandleFuncMap = new HashMap<>();
 
-    public MessageHandleFuncTable registerHandleFunc(String messtype, Method func) {
+    public MessageHandleFuncTable registerHandleFunc(String serviceName, String messtype, Method func) {
+        if(messageHandleFuncMap.containsKey(messtype)) {
+            throw new SwiftmcwebException(serviceName + " Service duplicate message handle func: " + func.getName());
+        }
         messageHandleFuncMap.put(messtype, func);
         return this;
     }
