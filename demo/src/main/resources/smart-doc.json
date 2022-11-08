@@ -1,6 +1,6 @@
 {
   "projectName": "swiftmcweb demo",
-  "serverUrl": "http://localhost:8080",
+  "serverUrl": "http://localhost:8888",
   "isStrict": false,
   "outPath": "src/main/resources/static/doc",
   "allInOne": true,

@@ -1,7 +1,7 @@
 # autoconfig
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.flyan.swiftmcweb.core.config.MessageIpcConfig,\
-  com.flyan.swiftmcweb.core.framework.security.config.WebSecurityConfig,\
-  com.flyan.swiftmcweb.core.framework.web.config.WebConfig,\
-  com.flyan.swiftmcweb.core.listener.AutoRegMessageHandlerListener
+  com.liuyun.swiftmcweb.core.config.MessageIpcConfig,\
+  com.liuyun.swiftmcweb.core.framework.security.config.WebSecurityConfig,\
+  com.liuyun.swiftmcweb.core.framework.web.config.WebConfig,\
+  com.liuyun.swiftmcweb.core.listener.AutoRegMessageHandlerListener
 

@@ -15,7 +15,7 @@ api[0].list.push({
 api[0].list[0].list.push({
     order: '1',
     deprecated: 'false',
-    url: 'http://localhost:8080/DEMO/SAY_HI',
+    url: 'http://localhost:8888/DEMO/SAY_HI',
     desc: '说嗨~',
 });
 api[0].list.push({
@@ -28,31 +28,31 @@ api[0].list.push({
 api[0].list[1].list.push({
     order: '1',
     deprecated: 'false',
-    url: 'http://localhost:8080/USER/exists',
+    url: 'http://localhost:8888/USER/exists',
     desc: '判断用户是否存在',
 });
 api[0].list[1].list.push({
     order: '2',
     deprecated: 'false',
-    url: 'http://localhost:8080/USER/detail',
+    url: 'http://localhost:8888/USER/detail',
     desc: '获取用户信息',
 });
 api[0].list[1].list.push({
     order: '3',
     deprecated: 'false',
-    url: 'http://localhost:8080/USER/add_update',
+    url: 'http://localhost:8888/USER/add_update',
     desc: '新增/更新用户',
 });
 api[0].list[1].list.push({
     order: '4',
     deprecated: 'false',
-    url: 'http://localhost:8080/USER/del',
+    url: 'http://localhost:8888/USER/del',
     desc: '删除用户',
 });
 api[0].list[1].list.push({
     order: '5',
     deprecated: 'false',
-    url: 'http://localhost:8080/USER/page',
+    url: 'http://localhost:8888/USER/page',
     desc: '分页查询用户',
 });
 api[0].list.push({
@@ -65,31 +65,31 @@ api[0].list.push({
 api[0].list[2].list.push({
     order: '1',
     deprecated: 'false',
-    url: 'http://localhost:8080/AUTH/captcha_image',
+    url: 'http://localhost:8888/AUTH/captcha_image',
     desc: '获取验证码 Base64 图片',
 });
 api[0].list[2].list.push({
     order: '2',
     deprecated: 'false',
-    url: 'http://localhost:8080/AUTH/user_id',
+    url: 'http://localhost:8888/AUTH/user_id',
     desc: '获取授权的用户 id',
 });
 api[0].list[2].list.push({
     order: '3',
     deprecated: 'false',
-    url: 'http://localhost:8080/AUTH/user_info',
+    url: 'http://localhost:8888/AUTH/user_info',
     desc: '获取授权的用户信息',
 });
 api[0].list[2].list.push({
     order: '4',
     deprecated: 'false',
-    url: 'http://localhost:8080/AUTH/login',
+    url: 'http://localhost:8888/AUTH/login',
     desc: '账号+密码登录',
 });
 api[0].list[2].list.push({
     order: '5',
     deprecated: 'false',
-    url: 'http://localhost:8080/AUTH/logout',
+    url: 'http://localhost:8888/AUTH/logout',
     desc: '登出注销',
 });
 api[0].list.push({
@@ -102,7 +102,7 @@ api[0].list.push({
 api[0].list[3].list.push({
     order: '1',
     deprecated: 'false',
-    url: 'http://localhost:8080/file/upload',
+    url: 'http://localhost:8888/file/upload',
     desc: '文件上传接口',
 });
 api[0].list.push({
@@ -115,7 +115,7 @@ api[0].list.push({
 api[0].list[4].list.push({
     order: '1',
     deprecated: 'false',
-    url: 'http://localhost:8080/sendrec',
+    url: 'http://localhost:8888/sendrec',
     desc: '发送一条消息，并接收响应的消息',
 });
 document.onkeydown = keyDownSearch;

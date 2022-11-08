@@ -19,6 +19,9 @@ target/
 *.iml
 *.ipr
 
+### IntelliJ fleet ###
+.fleet
+
 ### NetBeans ###
 /nbproject/private/
 /nbbuild/

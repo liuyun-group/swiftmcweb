@@ -32,21 +32,21 @@ open module com.flyan.swiftmcweb.core {
 
 
 
-    exports com.flyan.swiftmcweb.core.annotation;
-    exports com.flyan.swiftmcweb.core.pojo;
-    exports com.flyan.swiftmcweb.core.exception;
-    exports com.flyan.swiftmcweb.core.exception.enums;
-    exports com.flyan.swiftmcweb.core.framework.security.core.enums;
+    exports com.liuyun.swiftmcweb.core.annotation;
+    exports com.liuyun.swiftmcweb.core.pojo;
+    exports com.liuyun.swiftmcweb.core.exception;
+    exports com.liuyun.swiftmcweb.core.exception.enums;
+    exports com.liuyun.swiftmcweb.core.framework.security.core.enums;
 
-    exports com.flyan.swiftmcweb.core.web;
-    exports com.flyan.swiftmcweb.core.web.manager;
-    exports com.flyan.swiftmcweb.core.web.service;
+    exports com.liuyun.swiftmcweb.core.web;
+    exports com.liuyun.swiftmcweb.core.web.manager;
+    exports com.liuyun.swiftmcweb.core.web.service;
 
-    exports com.flyan.swiftmcweb.core.util;
-    exports com.flyan.swiftmcweb.core.util.json;
-    exports com.flyan.swiftmcweb.core.util.jwt;
-    exports com.flyan.swiftmcweb.core.util.servlet;
-    exports com.flyan.swiftmcweb.core.util.time;
-    exports com.flyan.swiftmcweb.core.util.exception;
-    exports com.flyan.swiftmcweb.core.util.validate;
+    exports com.liuyun.swiftmcweb.core.util;
+    exports com.liuyun.swiftmcweb.core.util.json;
+    exports com.liuyun.swiftmcweb.core.util.jwt;
+    exports com.liuyun.swiftmcweb.core.util.servlet;
+    exports com.liuyun.swiftmcweb.core.util.time;
+    exports com.liuyun.swiftmcweb.core.util.exception;
+    exports com.liuyun.swiftmcweb.core.util.validate;
 }

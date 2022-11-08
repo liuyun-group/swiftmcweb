@@ -17,28 +17,28 @@
 ```xml
 
 <dependencies>
-    <!-- swiftmcweb setup!!! -->
-    <dependency>
-        <groupId>com.flyan.swiftmcweb</groupId>
-        <artifactId>swiftmcweb</artifactId>
-        <version>${swiftmcweb.version}</version>
-    </dependency>
+  <!-- swiftmcweb setup!!! -->
+  <dependency>
+    <groupId>com.flyan.swiftmcweb</groupId>
+    <artifactId>swiftmcweb</artifactId>
+    <version>${swiftmcweb.version}</version>
+  </dependency>
 </dependencies>
 ```
 
-- 实现`SWIFTMCWEB`提供的用户验证接口`SwiftmcwebAuthManager`，若未实现，将会使用默认的实现。
+- 实现`SWIFTMCWEB`提供的用户验证接口`SwiftmcwebAuthManager`，若未实现，将会导致启动失败。
 
 ```java
-package com.flyan.swiftmcweb.core.web.manager;
+package com.liuyun.swiftmcweb.core.web.manager;
 
 import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
-import com.flyan.swiftmcweb.core.annotation.MessageHandleFunc;
-import com.flyan.swiftmcweb.core.annotation.MessageHandleManager;
-import com.flyan.swiftmcweb.core.util.jwt.JwtUtils;
+import com.liuyun.swiftmcweb.core.annotation.MessageHandleFunc;
+import com.liuyun.swiftmcweb.core.annotation.MessageHandleManager;
+import com.liuyun.swiftmcweb.core.util.jwt.JwtUtils;
 
-import static com.flyan.swiftmcweb.core.framework.security.core.enums.JwtConsts.PAYLOAD_UID;
-import static com.flyan.swiftmcweb.core.framework.security.core.enums.JwtConsts.TOKEN_HEAD;
+import static com.liuyun.swiftmcweb.core.framework.security.core.enums.JwtConsts.PAYLOAD_UID;
+import static com.liuyun.swiftmcweb.core.framework.security.core.enums.JwtConsts.TOKEN_HEAD;
 
 /**
  * swiftmcweb 框架用户验证管理器，必须实现且使用 {@link MessageHandleManager} 注释。
@@ -101,11 +101,11 @@ public interface SwiftmcwebAuthManager {
 - 开始编写消息处理服务接口，消息处理接口中的消息处理函数有着统一的签名`ResponseMessage<?> func(Message<?> message)`，一个`demo`服务接口如下
 
 ```java
-import com.flyan.swiftmcweb.core.pojo.Message;
-import com.flyan.swiftmcweb.core.pojo.ResponseMessage;
-import com.flyan.swiftmcweb.core.web.service.BaseMessageHandleService;
-import com.flyan.swiftmcweb.demo.biz.demo.api.dto.HiRespDTO;
-import com.flyan.swiftmcweb.demo.biz.demo.api.vo.HiReqVO;
+import com.liuyun.swiftmcweb.core.pojo.Message;
+import com.liuyun.swiftmcweb.core.pojo.ResponseMessage;
+import com.liuyun.swiftmcweb.core.web.service.BaseMessageHandleService;
+import com.liuyun.swiftmcweb.demo.biz.demo.api.dto.HiRespDTO;
+import com.liuyun.swiftmcweb.demo.biz.demo.api.vo.HiReqVO;
 
 public interface DemoService extends BaseMessageHandleService {
 
@@ -124,19 +124,19 @@ public interface DemoService extends BaseMessageHandleService {
   注解标注并给予一个服务内唯一的消息类型，同时还可以配置注解值`@MessageHandleFunc.auth`来设置该接口是否需要自动认证，默认需要。
 
 ```java
-import com.flyan.swiftmcweb.core.annotation.MessageHandleFunc;
-import com.flyan.swiftmcweb.core.annotation.MessageHandleService;
-import com.flyan.swiftmcweb.core.pojo.Message;
-import com.flyan.swiftmcweb.core.pojo.ResponseMessage;
-import com.flyan.swiftmcweb.demo.biz.demo.api.dto.HiRespDTO;
-import com.flyan.swiftmcweb.demo.biz.demo.api.vo.HiReqVO;
-import com.flyan.swiftmcweb.demo.biz.demo.service.DemoService;
+import com.liuyun.swiftmcweb.core.annotation.MessageHandleFunc;
+import com.liuyun.swiftmcweb.core.annotation.MessageHandleService;
+import com.liuyun.swiftmcweb.core.pojo.Message;
+import com.liuyun.swiftmcweb.core.pojo.ResponseMessage;
+import com.liuyun.swiftmcweb.demo.biz.demo.api.dto.HiRespDTO;
+import com.liuyun.swiftmcweb.demo.biz.demo.api.vo.HiReqVO;
+import com.liuyun.swiftmcweb.demo.biz.demo.service.DemoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import static com.flyan.swiftmcweb.core.pojo.ResponseMessage.success;
+import static com.liuyun.swiftmcweb.core.pojo.ResponseMessage.success;
 
 /**
  * 服务 - DEMO服务
@@ -181,11 +181,11 @@ public class DemoServiceImpl implements DemoService {
 接口既可以，该接口源码如下。
 
 ```java
-package com.flyan.swiftmcweb.core.web.controller;
+package com.liuyun.swiftmcweb.core.web.controller;
 
-import com.flyan.swiftmcweb.core.pojo.Message;
-import com.flyan.swiftmcweb.core.pojo.ResponseMessage;
-import com.flyan.swiftmcweb.core.web.service.MessageService;
+import com.liuyun.swiftmcweb.core.pojo.Message;
+import com.liuyun.swiftmcweb.core.pojo.ResponseMessage;
+import com.liuyun.swiftmcweb.core.web.service.MessageService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -224,7 +224,7 @@ public class MessageController {
 即可，接口参数则放入`Message.data`中，消息定义如下。
 
 ```java
-package com.flyan.swiftmcweb.core.pojo;
+package com.liuyun.swiftmcweb.core.pojo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -296,6 +296,8 @@ npm run dev
 
 - Q: 你这框架看着好像只能写普通接口，上传文件等特殊功能接口怎么办？
 - A: 是的，`SWIFTMCWEB`只为开发`api`，但它基于`springweb`，并且以上的功能都是无侵入的，你完全可以使用原生的`springweb`来完成这些许特殊需求，但这些接口都会被要求使用`token`
-  请求头来进行身份验证（之后版本考虑开放可配置选项）。
+  请求头来进行身份验证（如果使用@OriginApi并设置auth=false则可以不进行身份验证，谨慎使用！）。
+- Q: `SWIFTMCWEB`的文档看起来非常简单，能否提供更详细的开发文档？
+- A: 会有的！工作比较忙，我们会抓紧时间更新！感兴趣的务必先看看`demo`，这些代码很好的展示了`SWIFTMCWEB`的能力！
 
 

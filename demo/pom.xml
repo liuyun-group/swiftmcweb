@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.flyan.swiftmcweb</groupId>
+    <groupId>com.liuyun.swiftmcweb</groupId>
     <artifactId>swiftmcweb-demo</artifactId>
     <name>swiftmcweb-demo</name>
     <version>1.0.0</version>
@@ -73,7 +73,7 @@
     <dependencies>
         <!-- swiftmcweb setup!!! -->
         <dependency>
-            <groupId>com.flyan.swiftmcweb</groupId>
+            <groupId>com.liuyun.swiftmcweb</groupId>
             <artifactId>swiftmcweb</artifactId>
             <version>1.0.0</version>
         </dependency>
