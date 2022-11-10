@@ -4,8 +4,10 @@ import com.liuyun.swiftmcweb.core.annotation.MessageHandleFunc;
 import com.liuyun.swiftmcweb.core.annotation.MessageHandleService;
 import com.liuyun.swiftmcweb.core.pojo.Message;
 import com.liuyun.swiftmcweb.core.pojo.ResponseMessage;
+import com.liuyun.swiftmcweb.core.web.service.impl.MessageHandleServiceImpl;
 import com.liuyun.swiftmcweb.demo.biz.demo.api.dto.HiRespDTO;
 import com.liuyun.swiftmcweb.demo.biz.demo.api.vo.HiReqVO;
+import com.liuyun.swiftmcweb.demo.biz.demo.manager.DemoManager;
 import com.liuyun.swiftmcweb.demo.biz.demo.service.DemoService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,7 +30,7 @@ import static com.liuyun.swiftmcweb.core.pojo.ResponseMessage.success;
                  * 只能这样加上注解了，实际上不加也不会影响系统功能，暂未想到更好的解决方案。
                  */
 @Slf4j
-public class DemoServiceImpl implements DemoService {
+public class DemoServiceImpl extends MessageHandleServiceImpl<DemoManager> implements DemoService {
 
     /**
      * 说嗨~
@@ -45,11 +47,11 @@ public class DemoServiceImpl implements DemoService {
      * @param message
      * @return
      */
-    @MessageHandleFunc(messtype = "SAY_HI")
+    @MessageHandleFunc(messtype = "SAY_HI", auth = false)
     @PostMapping("DEMO/SAY_HI")
     @Override
     public ResponseMessage<HiRespDTO> sayHello(@RequestBody Message<HiReqVO> message) {
-        String toSay = "hello " + message.getData().getName();
+        String toSay = getBaseManager().sayHello(message.getData().getName());
         return success(getServiceName(), "SAY_HI",
                 new HiRespDTO().setHi(toSay));
     }

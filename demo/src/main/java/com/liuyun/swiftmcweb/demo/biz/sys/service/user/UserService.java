@@ -3,7 +3,7 @@ package com.liuyun.swiftmcweb.demo.biz.sys.service.user;
 
 import com.liuyun.swiftmcweb.core.pojo.Message;
 import com.liuyun.swiftmcweb.core.pojo.ResponseMessage;
-import com.liuyun.swiftmcweb.core.web.service.BaseMessageHandleService;
+import com.liuyun.swiftmcweb.core.web.service.IMessageHandleService;
 import com.liuyun.swiftmcweb.demo.biz.common.poj.PageResult;
 import com.liuyun.swiftmcweb.demo.biz.sys.api.user.dto.UserInfoDTO;
 import com.liuyun.swiftmcweb.demo.biz.sys.api.user.vo.UserDetailVO;
@@ -14,7 +14,7 @@ import com.liuyun.swiftmcweb.demo.biz.sys.api.user.vo.UserPageQueryVO;
  * @version 1.0
  * @date 10/25/22
  */
-public interface UserService extends BaseMessageHandleService {
+public interface UserService extends IMessageHandleService {
 
     /**
      * 判断用户是否存在

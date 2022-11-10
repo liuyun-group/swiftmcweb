@@ -41,6 +41,7 @@ open module com.flyan.swiftmcweb.core {
     exports com.liuyun.swiftmcweb.core.web;
     exports com.liuyun.swiftmcweb.core.web.manager;
     exports com.liuyun.swiftmcweb.core.web.service;
+    exports com.liuyun.swiftmcweb.core.web.service.impl;
 
     exports com.liuyun.swiftmcweb.core.util;
     exports com.liuyun.swiftmcweb.core.util.json;

@@ -103,11 +103,11 @@ public interface SwiftmcwebAuthManager {
 ```java
 import com.liuyun.swiftmcweb.core.pojo.Message;
 import com.liuyun.swiftmcweb.core.pojo.ResponseMessage;
-import com.liuyun.swiftmcweb.core.web.service.BaseMessageHandleService;
+import com.liuyun.swiftmcweb.core.web.service.IMessageHandleService;
 import com.liuyun.swiftmcweb.demo.biz.demo.api.dto.HiRespDTO;
 import com.liuyun.swiftmcweb.demo.biz.demo.api.vo.HiReqVO;
 
-public interface DemoService extends BaseMessageHandleService {
+public interface DemoService extends IMessageHandleService {
 
     /**
      * 说嗨~

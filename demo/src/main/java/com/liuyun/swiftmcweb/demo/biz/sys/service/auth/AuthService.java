@@ -3,7 +3,7 @@ package com.liuyun.swiftmcweb.demo.biz.sys.service.auth;
 
 import com.liuyun.swiftmcweb.core.pojo.Message;
 import com.liuyun.swiftmcweb.core.pojo.ResponseMessage;
-import com.liuyun.swiftmcweb.core.web.service.BaseMessageHandleService;
+import com.liuyun.swiftmcweb.core.web.service.IMessageHandleService;
 import com.liuyun.swiftmcweb.demo.biz.sys.api.auth.dto.CaptchaImageDTO;
 import com.liuyun.swiftmcweb.demo.biz.sys.api.auth.vo.LoginReqVO;
 import com.liuyun.swiftmcweb.demo.biz.sys.api.auth.vo.LoginResultDTO;
@@ -14,7 +14,7 @@ import com.liuyun.swiftmcweb.demo.biz.sys.api.user.dto.UserInfoDTO;
  * @version 1.0
  * @date 10/25/22
  */
-public interface AuthService extends BaseMessageHandleService {
+public interface AuthService extends IMessageHandleService {
 
     /**
      * 获取验证码 Base64 图片

@@ -18,7 +18,7 @@ import static com.liuyun.swiftmcweb.core.framework.security.core.enums.JwtConsts
  * @version 1.0
  * @date 10/27/22
  */
-public interface SwiftmcwebAuthManager {
+public interface SwiftmcwebAuthManager extends IMessageHandleManager {
 
     /**
      * 校验授权

@@ -6,7 +6,7 @@ import com.liuyun.swiftmcweb.core.annotation.MessageHandleFunc;
 import com.liuyun.swiftmcweb.core.annotation.MessageHandleService;
 import com.liuyun.swiftmcweb.core.context.MessageIpcContext;
 import com.liuyun.swiftmcweb.core.context.table.MessageHandleFuncTable;
-import com.liuyun.swiftmcweb.core.web.service.BaseMessageHandleService;
+import com.liuyun.swiftmcweb.core.web.service.IMessageHandleService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -43,7 +43,7 @@ public class AutoRegMessageHandlerListener implements ApplicationListener<Contex
         }
 
         for (String beanName : messageHandleServiceBeanNames) {
-            if (applicationContext.getBean(beanName) instanceof BaseMessageHandleService messageHandleService) {
+            if (applicationContext.getBean(beanName) instanceof IMessageHandleService messageHandleService) {
                 var serviceName = messageHandleService.getClass().getAnnotation(MessageHandleService.class).service();
                 log.info("[{}] message handle service has been registered", serviceName);
                 /* 注册消息处理服务以及为该服务注册消息处理函数表 */

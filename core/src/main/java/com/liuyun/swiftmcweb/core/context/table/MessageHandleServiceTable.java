@@ -1,7 +1,7 @@
 package com.liuyun.swiftmcweb.core.context.table;
 
 import com.liuyun.swiftmcweb.core.exception.SwiftmcwebException;
-import com.liuyun.swiftmcweb.core.web.service.BaseMessageHandleService;
+import com.liuyun.swiftmcweb.core.web.service.IMessageHandleService;
 import lombok.Data;
 
 import java.util.HashMap;
@@ -20,7 +20,7 @@ public class MessageHandleServiceTable {
 
     private final Map<String, MessageHandleServiceInfo> messageHandleServiceMap = new HashMap<>();
 
-    public MessageHandleServiceTable registerService(BaseMessageHandleService service, MessageHandleFuncTable handleFuncTable) {
+    public MessageHandleServiceTable registerService(IMessageHandleService service, MessageHandleFuncTable handleFuncTable) {
         var serviceName = getMessageHandlerServiceName(service);
         if (messageHandleServiceMap.containsKey(serviceName)) {
             throw new SwiftmcwebException("Duplicate service: " + serviceName);

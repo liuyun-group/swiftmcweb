@@ -1,7 +1,7 @@
 package com.liuyun.swiftmcweb.core.util;
 
 import com.liuyun.swiftmcweb.core.annotation.MessageHandleService;
-import com.liuyun.swiftmcweb.core.web.service.BaseMessageHandleService;
+import com.liuyun.swiftmcweb.core.web.service.IMessageHandleService;
 import lombok.experimental.UtilityClass;
 
 /**
@@ -14,7 +14,7 @@ import lombok.experimental.UtilityClass;
 @UtilityClass
 public class MessageCoreUtil {
 
-    public static String getMessageHandlerServiceName(BaseMessageHandleService service) {
+    public static String getMessageHandlerServiceName(IMessageHandleService service) {
         var anno = service.getClass().getAnnotation(MessageHandleService.class);
         return anno != null ? anno.service() : null;
     }

@@ -10,6 +10,8 @@ import com.liuyun.swiftmcweb.core.pojo.Message;
 import com.liuyun.swiftmcweb.core.pojo.ResponseMessage;
 import com.liuyun.swiftmcweb.core.util.exception.ServiceExceptionUtil;
 import com.liuyun.swiftmcweb.core.util.jwt.JwtUtils;
+import com.liuyun.swiftmcweb.core.web.service.impl.MessageHandleServiceImpl;
+import com.liuyun.swiftmcweb.demo.biz.common.enums.ErrorCodeConstants;
 import com.liuyun.swiftmcweb.demo.biz.dal.CacheDao;
 import com.liuyun.swiftmcweb.demo.biz.sys.api.auth.dto.CaptchaImageDTO;
 import com.liuyun.swiftmcweb.demo.biz.sys.api.auth.vo.LoginReqVO;
@@ -18,7 +20,6 @@ import com.liuyun.swiftmcweb.demo.biz.sys.api.user.dto.UserInfoDTO;
 import com.liuyun.swiftmcweb.demo.biz.sys.manager.auth.AuthManager;
 import com.liuyun.swiftmcweb.demo.biz.sys.manager.user.UserManager;
 import com.liuyun.swiftmcweb.demo.biz.sys.service.auth.AuthService;
-import com.liuyun.swiftmcweb.demo.biz.common.enums.ErrorCodeConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,9 +29,8 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
-import static com.liuyun.swiftmcweb.core.pojo.ResponseMessage.success;
-import static com.liuyun.swiftmcweb.core.util.exception.ServiceExceptionUtil.exception;
 import static com.liuyun.swiftmcweb.core.framework.security.core.enums.JwtConsts.TOKEN_HEAD;
+import static com.liuyun.swiftmcweb.core.pojo.ResponseMessage.success;
 
 
 /**
@@ -46,14 +46,13 @@ import static com.liuyun.swiftmcweb.core.framework.security.core.enums.JwtConsts
                  * 只能这样加上注解了，实际上不加也不会影响系统功能，暂未想到更好的解决方案。
                  */
 @Slf4j
-public class AuthServiceImpl implements AuthService {
+public class AuthServiceImpl 
+        extends MessageHandleServiceImpl<AuthManager>
+        implements AuthService {
 
     private static final int WIDTH = 160;
     private static final int HEIGHT = 60;
     private static final Long TIMEOUT_SECONDS = 3 * 60L;
-
-    @Resource
-    private AuthManager authManager;
 
     @Resource
     private CacheDao cacheDao;
@@ -106,7 +105,7 @@ public class AuthServiceImpl implements AuthService {
     public ResponseMessage<Long> getUserId(@RequestBody @Valid Message<?> message) {
         HttpServletRequest request = getRequest();
         var authorization = request.getHeader(JwtConsts.AUTH_HEADER);
-        Long userId = authManager.getUserId(authorization);
+        Long userId = baseManager.getUserId(authorization);
         return (ResponseMessage<Long>) new ResponseMessage<Long>(message).setData(userId);
     }
 
@@ -167,8 +166,8 @@ public class AuthServiceImpl implements AuthService {
         /* 校验验证码 */
         verifyCaptcha(reqVo);
         /* 账号密码验证 */
-        var user = authManager.authenticate(reqVo.getUsername(), reqVo.getPassword());
-        var token = authManager.userId2Token(user.getId());
+        var user = baseManager.authenticate(reqVo.getUsername(), reqVo.getPassword());
+        var token = baseManager.userId2Token(user.getId());
         cacheDao.set(token, user.getId(), JwtUtils.EXPIRE_DATE);
         return success(message, new LoginResultDTO(user.getId(), token));
     }
@@ -203,14 +202,14 @@ public class AuthServiceImpl implements AuthService {
     }
 
     private void verifyCaptcha(LoginReqVO loginReqVO) {
-        var code = authManager.getCaptchaCode(loginReqVO.getSession());
+        var code = baseManager.getCaptchaCode(loginReqVO.getSession());
         if(code == null) {
             throw ServiceExceptionUtil.exception(ErrorCodeConstants.AUTH_LOGIN_CAPTCHA_NOT_FOUND);
         }
         if(!code.equalsIgnoreCase(loginReqVO.getCode())) {
             throw ServiceExceptionUtil.exception(ErrorCodeConstants.AUTH_LOGIN_CAPTCHA_CODE_ERROR);
         }
-        authManager.deleteCaptchaCodeSession(loginReqVO.getSession());
+        baseManager.deleteCaptchaCodeSession(loginReqVO.getSession());
     }
 
 }

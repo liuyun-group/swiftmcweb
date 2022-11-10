@@ -3,7 +3,7 @@ package com.liuyun.swiftmcweb.core.context.table;
 import com.alibaba.fastjson2.annotation.JSONField;
 import com.liuyun.swiftmcweb.core.annotation.MessageHandleFunc;
 import com.liuyun.swiftmcweb.core.util.MessageCoreUtil;
-import com.liuyun.swiftmcweb.core.web.service.BaseMessageHandleService;
+import com.liuyun.swiftmcweb.core.web.service.IMessageHandleService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,7 +22,7 @@ public class MessageHandleServiceInfo {
      * 消息处理服务
      */
     @JSONField(serialize = false, deserialize = false)
-    private BaseMessageHandleService service;
+    private IMessageHandleService service;
 
     /**
      * 消息处理函数表，其包含当前处理服务里被 {@link MessageHandleFunc} 注解的所有功能函数。

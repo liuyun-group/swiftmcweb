@@ -1,6 +1,7 @@
 package com.liuyun.swiftmcweb.demo.biz.sys.manager.user;
 
 
+import com.liuyun.swiftmcweb.core.web.manager.IMessageHandleManager;
 import com.liuyun.swiftmcweb.demo.biz.common.poj.PageResult;
 import com.liuyun.swiftmcweb.demo.biz.sys.api.user.dto.UserInfoDTO;
 import com.liuyun.swiftmcweb.demo.biz.sys.api.user.vo.UserDetailVO;
@@ -11,7 +12,7 @@ import com.liuyun.swiftmcweb.demo.biz.sys.api.user.vo.UserPageQueryVO;
  * @version 1.0
  * @date 10/27/22
  */
-public interface UserManager {
+public interface UserManager extends IMessageHandleManager {
 
     Boolean exists(Long userId);
 

@@ -10,7 +10,7 @@ import com.liuyun.swiftmcweb.core.pojo.Message;
  * @version 1.0
  * @date 10/18/22
  */
-public interface MessageService extends BaseMessageHandleService {
+public interface MessageService extends IMessageHandleService {
 
     /**
      * 发送一条消息到某个服务请求一个功能服务，返回一个包含处理结果的消息对象
