@@ -29,10 +29,10 @@ open module com.flyan.swiftmcweb.core {
     requires com.alibaba.fastjson2;
     requires org.slf4j;
     requires lombok;
+	requires io.swagger.v3.oas.annotations;
 
 
-
-    exports com.liuyun.swiftmcweb.core.annotation;
+	exports com.liuyun.swiftmcweb.core.annotation;
     exports com.liuyun.swiftmcweb.core.pojo;
     exports com.liuyun.swiftmcweb.core.exception;
     exports com.liuyun.swiftmcweb.core.exception.enums;

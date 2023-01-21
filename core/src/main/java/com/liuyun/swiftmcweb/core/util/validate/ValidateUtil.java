@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.experimental.UtilityClass;
 
 import javax.validation.Validation;
-import javax.validation.Validator;
 
 /**
  * @author flyan
@@ -14,8 +13,6 @@ import javax.validation.Validator;
 @UtilityClass
 public class ValidateUtil {
 
-    private static final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
-
     /**
      * entity validate by groups.
      *
@@ -24,7 +21,7 @@ public class ValidateUtil {
      * @param <T>
      */
     public static <T> ValidateResult validate(T t, Class<?>... groups) {
-        var cs = validator.validate(t, groups);
+        var cs = Validation.buildDefaultValidatorFactory().getValidator().validate(t, groups);
         if(cs.size() > 0) {
             var error = new StringBuilder();
             for (var c : cs) {

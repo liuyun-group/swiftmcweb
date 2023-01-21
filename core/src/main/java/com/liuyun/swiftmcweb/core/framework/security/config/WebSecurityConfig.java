@@ -5,6 +5,7 @@ import cn.hutool.core.util.ReflectUtil;
 import com.liuyun.swiftmcweb.core.annotation.OriginApi;
 import com.liuyun.swiftmcweb.core.framework.security.core.bean.JwtEntryPoint;
 import com.liuyun.swiftmcweb.core.framework.security.core.filter.JwtAuthenticationTokenFilter;
+import com.liuyun.swiftmcweb.core.util.MessageCoreUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -35,7 +36,7 @@ import java.util.stream.Collectors;
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @Slf4j
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+    public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private ApplicationContext applicationContext;
@@ -62,7 +63,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             "/v2/api-docs/**",
             "/v2/api-docs-ext",
             "/v3/api-docs/**",
-            "/v3/api-docs-ext"
+            "/v3/api-docs-ext",
+
+            /* health check */
+            "/actuator/health/**",
     }).collect(Collectors.toList());
 
     public static List<String> BAN_PATHS = Arrays.stream(new String[] {
@@ -77,6 +81,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
             List<String> openApis = new ArrayList<>();
             for (String controllerBeanName : controllerBeanNames) {
                 Object controllerBean = applicationContext.getBean(controllerBeanName);
+                var clazz = MessageCoreUtil.getOriginClass(controllerBean);
                 String requestPrefixPath = standardApiPath(
                         !controllerBean.getClass().isAnnotationPresent(RequestMapping.class) ? "" :
                                 controllerBean.getClass().getAnnotation(RequestMapping.class).value()[0]

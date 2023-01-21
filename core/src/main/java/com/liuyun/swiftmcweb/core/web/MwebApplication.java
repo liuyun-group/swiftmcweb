@@ -22,4 +22,12 @@ public abstract class MwebApplication {
         log.info("Swiftmcweb application launch cost: {}ms", (endMs - startMs));
     }
 
+    public static void launch(SpringApplication application, String[] args) {
+        application.run(args);
+    }
+
+    public static SpringApplication buildApp(Class<? extends MwebApplication> appClass) {
+        return new SpringApplication(appClass);
+    }
+
 }

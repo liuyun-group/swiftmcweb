@@ -20,7 +20,6 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 
 import static com.liuyun.swiftmcweb.core.exception.enums.GlobalErrorCodeConstants.*;
-import static com.liuyun.swiftmcweb.core.pojo.ResponseMessage.error;
 
 /**
  * 消息服务实现，这里只提供一个消息回合机制的实现，即发送一条消息给某服务，并接收其响应消息。
@@ -68,14 +67,7 @@ public class MessageServiceImpl implements MessageService {
         /* 传递消息给该处理函数，得到响应 */
         var func = handleFuncTable.getHandleFuncName(messtype);
         var genericParameterTypes = func.getGenericParameterTypes();
-        if (data == null) {
-            /* 没有消息体，直接尝试请求服务功能 */
-            try {
-                return (ResponseMessage<Object>) func.invoke(messageHandleServiceInfo.getService(), message);
-            } catch (IllegalAccessException | InvocationTargetException e) {
-                log.error("Message services config error, send failed, ex: {}", e.toString());
-            }
-        } else {
+        if (data != null) {
             /* 需要类型转换！获取返回值类型中的泛型信息，所以要进一步判断，即判断获取的返回值类型是否是参数化类型 ParameterizedType */
             if (genericParameterTypes.length == 1) {
                 ParameterizedType parameterizedType = (ParameterizedType) genericParameterTypes[0];
@@ -93,22 +85,28 @@ public class MessageServiceImpl implements MessageService {
                         }
                         message.setData(to);
                     } catch (JSONException ex) {
+                        log.error("Message body trans to object failed, ex: {}", ex.toString());
                         return error(SERVICE_NAME, FUNC_NAME, MESSAGE_DATA_CANNOT_CAST.getErrcode(),
                                 ServiceExceptionUtil.doFormat(MESSAGE_DATA_CANNOT_CAST.getErrcode(), MESSAGE_DATA_CANNOT_CAST.getMsg()));
                     }
-
-                    try {
-                        return (ResponseMessage<Object>) func.invoke(messageHandleServiceInfo.getService(), message);
-                    } catch (IllegalAccessException | InvocationTargetException e) {
-                        /* 处理业务异常，它们是合法的！ */
-                        Throwable cause = e.getCause();
-                        if(cause instanceof ServiceException serviceException) {
-                            return globalExceptionHandler.serviceExceptionHandler(serviceException);
-                        }
-                        log.error("Message services config error, send failed, ex: {}", e.toString());
-                    }
                 }
             }
+        }
+        try {
+            /* 有些处理函数不需要响应 */
+            if(func.invoke(messageHandleServiceInfo.getService(), message) instanceof ResponseMessage responseMessage) {
+                return responseMessage;
+            } else {
+                return null;
+            }
+        } catch (IllegalAccessException | InvocationTargetException e) {
+            /* 处理业务异常，它们是合法的！ */
+            Throwable cause = e.getCause();
+            if(cause instanceof ServiceException serviceException) {
+                return globalExceptionHandler.serviceExceptionHandler(serviceException);
+            }
+            e.printStackTrace();
+            log.error("Message services config error, send failed, ex: {}, cause: {}", e.toString(), cause.toString());
         }
 
         /* 发生了一个意料之外的错误，这可能是消息服务配置问题 */

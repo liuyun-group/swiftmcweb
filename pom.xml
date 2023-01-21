@@ -58,6 +58,14 @@
         </repository>
     </repositories>
 
+    <distributionManagement>
+        <!-- private -->
+        <repository>
+            <id>rdc-local-releases</id>
+            <url>file:///home/flyan/office/workspace/mvn-repo/liuyun-repo/repository</url>
+        </repository>
+    </distributionManagement>
+
     <properties>
         <java.version>17</java.version>
         <inception-year.version>2022</inception-year.version>
