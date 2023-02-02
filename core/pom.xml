@@ -5,13 +5,12 @@
     <parent>
         <artifactId>swiftmcweb-parant</artifactId>
         <groupId>com.liuyun.swiftmcweb</groupId>
-        <version>1.0.0</version>
+        <version>${revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>swiftmcweb</artifactId>
     <name>swiftmcweb</name>
-    <version>1.0.0</version>
     <description>swiftmcweb is a message communication web implemented in Java</description>
     <packaging>jar</packaging>
     <url>none</url>

@@ -6,7 +6,7 @@
 
     <groupId>com.liuyun.swiftmcweb</groupId>
     <artifactId>swiftmcweb-parant</artifactId>
-    <version>1.0.0</version>
+    <version>${revision}</version>
     <name>${project.artifactId}</name>
     <description>swiftmcweb is a message communication web implemented in Java</description>
     <packaging>pom</packaging>
@@ -58,15 +58,21 @@
         </repository>
     </repositories>
 
+    <!-- nexus 公司私有仓库 -->
     <distributionManagement>
-        <!-- private -->
         <repository>
-            <id>rdc-local-releases</id>
-            <url>file:///home/flyan/office/workspace/mvn-repo/liuyun-repo/repository</url>
+            <id>liuyun-mvn-repo-releases</id>
+            <url>http://8.134.69.78:8081/nexus/repository/maven-releases/</url>
         </repository>
+        <snapshotRepository>
+            <id>liuyun-mvn-repo-snapshots</id>
+            <url>http://8.134.69.78:8081/nexus/repository/maven-snapshots/</url>
+        </snapshotRepository>
     </distributionManagement>
 
     <properties>
+        <revision>1.0.0-SNAPSHOT</revision>
+
         <java.version>17</java.version>
         <inception-year.version>2022</inception-year.version>
 
@@ -174,5 +180,15 @@
 
         </plugins>
     </build>
+
+    <profiles>
+        <!-- release 版本  -->
+        <profile>
+            <id>release</id>
+            <properties>
+                <revision>1.0.0</revision>
+            </properties>
+        </profile>
+    </profiles>
 
 </project>

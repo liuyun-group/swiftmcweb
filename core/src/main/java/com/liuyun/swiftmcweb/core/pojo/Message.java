@@ -16,7 +16,7 @@ import java.io.Serializable;
  * @version 1.0
  * @date 10/18/22
  */
-@Schema(description = "消息通信-消息")
+//@Schema(description = "消息通信-消息")
 @Data
 @Accessors(chain = true)
 @NoArgsConstructor
@@ -42,7 +42,7 @@ public class Message<T> implements Serializable {
     /**
      * 消息体
      */
-    @Schema(description = "消息体", required = true, example = "{}")
+    @Schema(description = "消息体", required = true)
     protected T data;
 
     /**

@@ -5,7 +5,7 @@
     <parent>
         <artifactId>swiftmcweb-parant</artifactId>
         <groupId>com.liuyun.swiftmcweb</groupId>
-        <version>1.0.0</version>
+        <version>${revision}</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 

@@ -7,14 +7,12 @@ import com.liuyun.swiftmcweb.core.context.MessageIpcContext;
 import com.liuyun.swiftmcweb.core.exception.enums.GlobalErrorCodeConstants;
 import com.liuyun.swiftmcweb.core.framework.security.core.bean.RereadHttpServletRequestWrapper;
 import com.liuyun.swiftmcweb.core.framework.security.core.enums.JwtConsts;
+import com.liuyun.swiftmcweb.core.framework.security.core.util.SecurityFrameworkUtil;
 import com.liuyun.swiftmcweb.core.pojo.Message;
 import com.liuyun.swiftmcweb.core.pojo.ResponseMessage;
 import com.liuyun.swiftmcweb.core.web.manager.SwiftmcwebAuthManager;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -22,7 +20,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.Serializable;
 
 /**
  *
@@ -79,10 +76,8 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             }
 
             /* 记录授权用户信息 */
-            Serializable userId = authManager.getUserId(authorization);
-            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userId, null, null);
-            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+            Long userId = authManager.getUserId(authorization);
+            SecurityFrameworkUtil.setLoginUserId(userId, request);
         }
 
         filterChain.doFilter(request, response);
