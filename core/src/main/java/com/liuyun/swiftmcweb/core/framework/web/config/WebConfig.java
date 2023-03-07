@@ -2,6 +2,7 @@ package com.liuyun.swiftmcweb.core.framework.web.config;
 
 import com.liuyun.swiftmcweb.core.framework.web.core.handler.GlobalExceptionHandler;
 import com.liuyun.swiftmcweb.core.framework.web.core.handler.GlobalResponseBodyHandler;
+import com.liuyun.swiftmcweb.core.framework.web.core.props.LiuyunLogProperties;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.actuate.autoconfigure.endpoint.web.CorsEndpointProperties;
 import org.springframework.boot.actuate.autoconfigure.endpoint.web.WebEndpointProperties;
@@ -11,6 +12,7 @@ import org.springframework.boot.actuate.endpoint.web.*;
 import org.springframework.boot.actuate.endpoint.web.annotation.ControllerEndpointsSupplier;
 import org.springframework.boot.actuate.endpoint.web.annotation.ServletEndpointsSupplier;
 import org.springframework.boot.actuate.endpoint.web.servlet.WebMvcEndpointHandlerMapping;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -29,6 +31,7 @@ import java.util.List;
  * @date 2022/4/8 18:58
  */
 @Configuration
+@EnableConfigurationProperties(LiuyunLogProperties.class)
 public class WebConfig implements WebMvcConfigurer {
 
     /**

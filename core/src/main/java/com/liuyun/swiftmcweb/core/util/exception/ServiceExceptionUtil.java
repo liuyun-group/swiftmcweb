@@ -77,6 +77,13 @@ public class ServiceExceptionUtil {
         return exception0(code, MESSAGES.get(code), params);
     }
 
+    /**
+     * 创建指定错误代码和消息的异常，它们可以不被定义在当前应用程序的错误代码常量表内。
+     */
+    public static ServiceException exception(Integer code, String message) {
+        return exception0(code, message);
+    }
+
     public static ServiceException exception0(Integer code, String messagePattern, Object... params) {
         String message = doFormat(code, messagePattern, params);
         return new ServiceException(code, message);

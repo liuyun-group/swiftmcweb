@@ -38,6 +38,9 @@ build/
 ### web ###
 **/demo-web-admin/node_modules
 
+### plugin generated ###
+**/.flattened-pom.xml
+
 ### temp files
 /files/
 /static/

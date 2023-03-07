@@ -9,6 +9,10 @@ spring:
     pathmatch:
       matching-strategy: ant_path_matcher
 
+--- #################### 日志文件配置 ####################
+logging:
+  file:
+    name: ${user.home}/logs/${spring.application.name}.log # 日志文件名，全路径
 
 --- #################### 系统相关配置 ####################
 demo-mipc:
