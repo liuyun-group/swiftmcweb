@@ -4,7 +4,6 @@ import com.alibaba.fastjson2.JSON;
 import com.alibaba.fastjson2.JSONException;
 import com.liuyun.swiftmcweb.core.annotation.MessageHandleService;
 import com.liuyun.swiftmcweb.core.context.MessageIpcContext;
-import com.liuyun.swiftmcweb.core.exception.ServiceException;
 import com.liuyun.swiftmcweb.core.framework.web.core.handler.GlobalExceptionHandler;
 import com.liuyun.swiftmcweb.core.pojo.Message;
 import com.liuyun.swiftmcweb.core.pojo.ResponseMessage;
@@ -92,26 +91,22 @@ public class MessageServiceImpl implements MessageService {
                 }
             }
         }
+
+        /* 反射调用实际的消息服务方法 */
         try {
-            /* 有些处理函数不需要响应 */
             if(func.invoke(messageHandleServiceInfo.getService(), message) instanceof ResponseMessage responseMessage) {
                 return responseMessage;
             } else {
+                /* 有些处理函数不需要响应 */
                 return null;
             }
         } catch (IllegalAccessException | InvocationTargetException e) {
-            /* 处理业务异常，它们是合法的！ */
+            /* 处理所有异常 */
             Throwable cause = e.getCause();
-            if(cause instanceof ServiceException serviceException) {
-                return globalExceptionHandler.serviceExceptionHandler(serviceException);
-            }
-            e.printStackTrace();
-            log.error("Message services config error, send failed, ex: {}, cause: {}", e.toString(), cause.toString());
+            cause.printStackTrace();
+            return globalExceptionHandler.allExceptionHandler(getRequest(), cause);
         }
 
-        /* 发生了一个意料之外的错误，这可能是消息服务配置问题 */
-        return error(SERVICE_NAME, FUNC_NAME, REQUEST_FUNCTION_FAILED.getErrcode(),
-                ServiceExceptionUtil.doFormat(REQUEST_FUNCTION_FAILED.getErrcode(), REQUEST_FUNCTION_FAILED.getMsg()));
     }
 
 }

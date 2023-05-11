@@ -2,6 +2,7 @@ package com.liuyun.swiftmcweb.core.pojo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.liuyun.swiftmcweb.core.exception.ErrorCode;
+import com.liuyun.swiftmcweb.core.exception.ServiceException;
 import com.liuyun.swiftmcweb.core.exception.enums.GlobalErrorCodeConstants;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -121,6 +122,23 @@ public class ResponseMessage<T> extends Message<T> {
     @JsonIgnore // 避免 jackson 序列化
     public boolean isError() {
         return !isSuccess();
+    }
+
+    // ========= 和 Exception 异常体系集成 =========
+
+    /**
+     * 判断是否有异常。如果有，则抛出 {@link ServiceException} 异常
+     */
+    public void checkError() throws ServiceException {
+        if (isSuccess()) {
+            return;
+        }
+        // 业务异常
+        throw new ServiceException(errcode, msg);
+    }
+
+    public static <T> ResponseMessage<T> error(ServiceException serviceException) {
+        return error(serviceException.getErrcode(), serviceException.getMessage());
     }
 
 

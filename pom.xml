@@ -47,6 +47,7 @@
     <modules>
         <module>core</module>
         <module>extension</module>
+        <module>demo</module>
     </modules>
 
     <repositories>

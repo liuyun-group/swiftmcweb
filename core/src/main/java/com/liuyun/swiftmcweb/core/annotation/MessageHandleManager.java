@@ -15,11 +15,13 @@ import java.lang.annotation.*;
  */
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@Component
 @Documented
+@Component
 public @interface MessageHandleManager {
 
-    @AliasFor(annotation = Component.class, value = "value")
+    @AliasFor(annotation = Component.class)
+    String value() default "";
+
     String name() default "";
 
 }

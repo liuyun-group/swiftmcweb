@@ -2,9 +2,11 @@ package com.liuyun.swiftmcweb.core.framework.web.core.handler;
 
 import com.liuyun.swiftmcweb.core.exception.ServiceException;
 import com.liuyun.swiftmcweb.core.exception.enums.GlobalErrorCodeConstants;
+import com.liuyun.swiftmcweb.core.framework.web.core.util.WebFrameworkUtil;
 import com.liuyun.swiftmcweb.core.pojo.ResponseMessage;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -19,6 +21,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.ValidationException;
+
+import static com.liuyun.swiftmcweb.core.exception.enums.GlobalErrorCodeConstants.FORBIDDEN;
 
 /**
  * 全局异常处理器，将 Exception 翻译成 ResponseMessage + 对应的异常编号
@@ -41,32 +45,35 @@ public class GlobalExceptionHandler {
      * @return 通用返回
      */
     public ResponseMessage<Object> allExceptionHandler(HttpServletRequest request, Throwable ex) {
-        if (ex instanceof MissingServletRequestParameterException) {
-            return missingServletRequestParameterExceptionHandler((MissingServletRequestParameterException) ex);
+        if (ex instanceof MissingServletRequestParameterException e) {
+            return missingServletRequestParameterExceptionHandler(e);
         }
-        if (ex instanceof MethodArgumentTypeMismatchException) {
-            return methodArgumentTypeMismatchExceptionHandler((MethodArgumentTypeMismatchException) ex);
+        if (ex instanceof MethodArgumentTypeMismatchException e) {
+            return methodArgumentTypeMismatchExceptionHandler(e);
         }
-        if (ex instanceof MethodArgumentNotValidException) {
-            return methodArgumentNotValidExceptionExceptionHandler((MethodArgumentNotValidException) ex);
+        if (ex instanceof MethodArgumentNotValidException e) {
+            return methodArgumentNotValidExceptionExceptionHandler(e);
         }
-        if (ex instanceof BindException) {
-            return bindExceptionHandler((BindException) ex);
+        if (ex instanceof BindException e) {
+            return bindExceptionHandler(e);
         }
-        if (ex instanceof ConstraintViolationException) {
-            return constraintViolationExceptionHandler((ConstraintViolationException) ex);
+        if (ex instanceof ConstraintViolationException e) {
+            return constraintViolationExceptionHandler(e);
         }
-        if (ex instanceof ValidationException) {
-            return validationException((ValidationException) ex);
+        if (ex instanceof ValidationException e) {
+            return validationException(e);
         }
-        if (ex instanceof NoHandlerFoundException) {
-            return noHandlerFoundExceptionHandler((NoHandlerFoundException) ex);
+        if (ex instanceof NoHandlerFoundException e) {
+            return noHandlerFoundExceptionHandler(e);
         }
-        if (ex instanceof HttpRequestMethodNotSupportedException) {
-            return httpRequestMethodNotSupportedExceptionHandler((HttpRequestMethodNotSupportedException) ex);
+        if (ex instanceof HttpRequestMethodNotSupportedException e) {
+            return httpRequestMethodNotSupportedExceptionHandler(e);
         }
-        if (ex instanceof ServiceException) {
-            return serviceExceptionHandler((ServiceException) ex);
+        if (ex instanceof ServiceException e) {
+            return serviceExceptionHandler(e);
+        }
+        if(ex instanceof AccessDeniedException e) {
+            return accessDeniedExceptionHandler(request, e);
         }
         return defaultExceptionHandler(request, ex);
     }
@@ -157,6 +164,20 @@ public class GlobalExceptionHandler {
     public ResponseMessage<Object> httpRequestMethodNotSupportedExceptionHandler(HttpRequestMethodNotSupportedException ex) {
         log.warn("[httpRequestMethodNotSupportedExceptionHandler]", ex);
         return ResponseMessage.error("SYSTEM", null, GlobalErrorCodeConstants.METHOD_NOT_ALLOWED.getErrcode(), String.format("请求方法不正确:%s", ex.getMessage()));
+    }
+
+    /**
+     * 处理 Spring Security 权限不足的异常
+     *
+     * 来源是，使用 @PreAuthorize 注解，AOP 进行权限拦截
+     */
+    @ExceptionHandler(value = AccessDeniedException.class)
+    public ResponseMessage<Object> accessDeniedExceptionHandler(HttpServletRequest req, AccessDeniedException ex) {
+        log.warn("[accessDeniedExceptionHandler][userId({}) 无法访问服务方法[{}::{}]]", WebFrameworkUtil.getLoginUserId(req),
+                req.getAttribute("service"),
+                req.getAttribute("messtype"),
+                ex);
+        return ResponseMessage.error("SYSTEM", null, FORBIDDEN.getErrcode(), FORBIDDEN.getMsg());
     }
 
     /**

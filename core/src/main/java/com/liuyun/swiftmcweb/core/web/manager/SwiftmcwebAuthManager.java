@@ -68,4 +68,46 @@ public interface SwiftmcwebAuthManager extends IMessageHandleManager {
                 .build());
     }
 
+    /**
+     * 判断是否有权限
+     *
+     * @param permission 权限
+     * @return 是否
+     */
+    default boolean hasPermission(String permission) {
+        return hasAnyPermissions(permission);
+    }
+
+    /**
+     * 判断是否有权限，任一一个即可
+     *
+     * @param permissions 权限
+     * @return 是否
+     */
+    default boolean hasAnyPermissions(String... permissions) {
+        return true;
+    }
+
+    /**
+     * 判断是否有角色
+     *
+     * 注意，角色使用的是 SysRoleDO 的 code 标识
+     *
+     * @param role 角色
+     * @return 是否
+     */
+    default boolean hasRole(String role) {
+        return hasAnyRoles(role);
+    }
+
+    /**
+     * 判断是否有角色，任一一个即可
+     *
+     * @param roles 角色数组
+     * @return 是否
+     */
+    default boolean hasAnyRoles(String... roles) {
+        return true;
+    }
+
 }

@@ -3,8 +3,9 @@ package com.liuyun.swiftmcweb.core.framework.security.config;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.ReflectUtil;
 import com.liuyun.swiftmcweb.core.annotation.OriginApi;
-import com.liuyun.swiftmcweb.core.framework.security.core.bean.JwtEntryPoint;
 import com.liuyun.swiftmcweb.core.framework.security.core.filter.JwtAuthenticationTokenFilter;
+import com.liuyun.swiftmcweb.core.framework.security.core.handler.AccessDeniedHandlerImpl;
+import com.liuyun.swiftmcweb.core.framework.security.core.handler.JwtEntryPointImpl;
 import com.liuyun.swiftmcweb.core.util.MessageCoreUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +37,7 @@ import java.util.stream.Collectors;
 @Configuration
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @Slf4j
-    public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private ApplicationContext applicationContext;
@@ -115,9 +116,11 @@ import java.util.stream.Collectors;
             log.info("Open apis has been configured\n{}", openApis);
         }
 
-        http.csrf()
-                .disable()
+        http
+                /* CSRF 禁用，因为不使用 Session */
+                .csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(jwtEntryPoint())
+                    .accessDeniedHandler(accessDeniedHandler())
                 .and()
                 .authorizeRequests()
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll()
@@ -126,13 +129,14 @@ import java.util.stream.Collectors;
                 .anyRequest().authenticated()
                 .and()
                 .addFilterBefore(authenticationTokenFilter(), UsernamePasswordAuthenticationFilter.class)
+                /* 基于 token 机制，所以不需要 Session */
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
         http.headers().cacheControl();
     }
 
     @Bean
-    public JwtEntryPoint jwtEntryPoint() {
-        return new JwtEntryPoint();
+    public JwtEntryPointImpl jwtEntryPoint() {
+        return new JwtEntryPointImpl();
     }
 
     @Bean
@@ -140,6 +144,10 @@ import java.util.stream.Collectors;
         return new JwtAuthenticationTokenFilter();
     }
 
+    @Bean
+    public AccessDeniedHandlerImpl accessDeniedHandler() {
+        return new AccessDeniedHandlerImpl();
+    }
 
     /* ====================== */
 

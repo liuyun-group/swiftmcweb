@@ -1,4 +1,4 @@
-package com.liuyun.swiftmcweb.core.framework.security.core.bean;
+package com.liuyun.swiftmcweb.core.framework.security.core.handler;
 
 import com.alibaba.fastjson2.JSON;
 import com.liuyun.swiftmcweb.core.exception.enums.GlobalErrorCodeConstants;
@@ -17,7 +17,7 @@ import java.io.IOException;
  * @version 1.0
  * @date 9/15/22
  */
-public class JwtEntryPoint implements AuthenticationEntryPoint {
+public class JwtEntryPointImpl implements AuthenticationEntryPoint {
 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException) throws IOException, ServletException {

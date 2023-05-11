@@ -15,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import javax.annotation.Resource;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -31,7 +32,7 @@ import java.io.IOException;
 @Slf4j
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
-    @Autowired
+    @Resource
     private SwiftmcwebAuthManager authManager;
 
     @Autowired
@@ -53,6 +54,10 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                     returnNoMessageResponse(response);
                     return;
                 } else {
+                    /* 将请求消息信息方法存放到 request 中，以便后续使用 */
+                    request.setAttribute("service", sendMessage.getService());
+                    request.setAttribute("messtype", sendMessage.getMesstype());
+
                     if (context.inAuthWhiteList(sendMessage.getService(), sendMessage.getMesstype())) {
                         /* 白名单，放行 */
                         filterChain.doFilter(request, response);
@@ -78,6 +83,8 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             /* 记录授权用户信息 */
             Long userId = authManager.getUserId(authorization);
             SecurityFrameworkUtil.setLoginUserId(userId, request);
+        } else {
+            returnNoAuthResponse(response);
         }
 
         filterChain.doFilter(request, response);
@@ -86,13 +93,13 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     private void returnNoMessageResponse(HttpServletResponse response) throws IOException {
         response.setStatus(GlobalErrorCodeConstants.NO_MESSAGE.getErrcode());
         response.setContentType("application/json;charset=UTF-8");
-        response.getWriter().write(JSON.toJSONString(ResponseMessage.error("SYSTEM", "", GlobalErrorCodeConstants.NO_MESSAGE)));
+        response.getWriter().write(JSON.toJSONString(ResponseMessage.error("SYSTEM", "error", GlobalErrorCodeConstants.NO_MESSAGE)));
     }
 
     private void returnNoAuthResponse(HttpServletResponse response) throws IOException {
         response.setStatus(GlobalErrorCodeConstants.UNAUTHORIZED.getErrcode());
         response.setContentType("application/json;charset=UTF-8");
-        response.getWriter().write(JSON.toJSONString(ResponseMessage.error("SYSTEM", "", GlobalErrorCodeConstants.UNAUTHORIZED)));
+        response.getWriter().write(JSON.toJSONString(ResponseMessage.error("SYSTEM", "error", GlobalErrorCodeConstants.UNAUTHORIZED)));
     }
 
 }
